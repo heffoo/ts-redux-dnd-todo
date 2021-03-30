@@ -1,10 +1,9 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addTask } from "./action/actions";
 import { useState } from "react";
-import appReducer from "./reducers/reducer";
 
-import "./App.css";
+import "./App.scss";
 import { useAppSelector } from "./store/store";
 
 function App() {
@@ -14,18 +13,22 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const newTask = (text: string) => {
-    dispatch(addTask(text));
-  };
-console.log('23', todos[0].title)
+  console.log("23", todos[0].title);
   return (
     <div className="App">
       <div className="main-container">
-        <input className="addtask-input" value={value} onChange={(e) => setValue(e.target.value)} type="text" />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            dispatch(addTask(value));
+            setValue('')
+          }}
+        >
+          <input className="addtask-input" value={value} onChange={(e) => setValue(e.target.value)} type="text" />
+        </form>
         {todos.map((todo) => (
           <div>{todo.title}</div>
-        )
-        )}
+        ))}
       </div>
     </div>
   );

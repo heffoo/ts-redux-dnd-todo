@@ -1,5 +1,5 @@
 import appReducer from "../reducers/reducer";
-import { createStore, combineReducers } from "redux";
+import { combineReducers } from "redux";
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 const rootReducer = combineReducers({
