@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { TaskType } from "../types/types";
-import { delTask } from "../action/actions";
+import { delTask, toggleTask } from "../action/actions";
 
 import "./Task.scss";
 interface Props {
@@ -15,10 +15,13 @@ export const Task: FC<Props> = ({ todo }) => {
   const deleteTask = (id: string) => {
     dispatch(delTask(id));
   };
+  const toggTask = (id: string) => {
+    dispatch(toggleTask(id));
+  };
 
   return (
     <li className="one-task">
-      <input type="checkbox" />
+      <input type="checkbox" checked={todo.completed} onChange={() => toggTask(todo.id)}/>
       <div>{todo.title}</div>
       <button onClick={() => deleteTask(todo.id)}> x </button>
     </li>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addTask, delTask } from "./action/actions";
+import { addTask } from "./action/actions";
 import { useState } from "react";
 import { TaskType } from "./types/types";
 

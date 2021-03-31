@@ -2,7 +2,7 @@ import { ActionTypes } from "./../types/types";
 import { v4 as uuidv4 } from "uuid";
 import { TaskType } from "../types/types";
 import * as consts from "../consts/consts";
-const InitialState: TaskType[] = JSON.parse(localStorage.getItem("data") as string)  || [];
+const InitialState: TaskType[] = JSON.parse(localStorage.getItem("data") as string) || [];
 
 export default function appReducer(state = InitialState, action: ActionTypes): TaskType[] {
   switch (action.type) {
@@ -13,8 +13,17 @@ export default function appReducer(state = InitialState, action: ActionTypes): T
       return [...state.filter((task) => task.id !== action.id)];
     }
     case consts.TOGGLE_TASK: {
-      return [...state];
+      return state.map((task) => (task.id === action.id ? { ...task, completed: !task.completed } : task));
     }
+
+    //  ...state.sort((task) => {
+    //           // if (task.id === action.id) {
+    //           //   task.completed = !task.completed;
+    //           // } else return;
+    //           // return;
+    //         }),
+    //       };
+    //     }
 
     // case "EDIT_TODO":
     //     break;
