@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addTask, delTask } from "./action/actions";
 import { useState } from "react";
-import { TaskType } from './types/types'
+import { TaskType } from "./types/types";
 
 import "./App.scss";
 import { useAppSelector } from "./store/store";
@@ -14,6 +14,10 @@ function App() {
   const [value, setValue] = useState("");
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(todos));
+  }, [todos]);
 
   console.log("23", todos);
   return (

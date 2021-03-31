@@ -1,5 +1,3 @@
-import * as consts from '../consts/consts'
-
 export interface TaskType {
     title: string;
     completed: boolean;
@@ -15,4 +13,10 @@ export interface DelTask {
   type: 'DEL_TASK';
   id: string;
 }
-export type ActionTypes = AddTask | DelTask;
+
+export interface ToggleTask {
+  type: 'TOGGLE_TASK';
+  id: string;
+}
+
+export type ActionTypes = AddTask | DelTask | ToggleTask;
