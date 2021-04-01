@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addTask } from "./action/actions";
 import { useState } from "react";
 import { TaskType } from "./types/types";
-
+import TextField from "@material-ui/core/TextField";
 import "./App.scss";
 import { useAppSelector } from "./store/store";
 import { Task } from "./components/Task";
@@ -22,6 +22,8 @@ function App() {
   console.log("23", todos);
   return (
     <div className="App">
+      <div className="upper-tabs"></div>
+      <div className="side-pannel"></div>
       <div className="main-container">
         <form
           onSubmit={(e) => {
@@ -30,12 +32,23 @@ function App() {
             setValue("");
           }}
         >
-          <input className="addtask-input" value={value} onChange={(e) => setValue(e.target.value)} type="text" />
+          <TextField
+            type="text"
+            className="addtask-input"
+            id="standard-basic"
+            label="Standard"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
         </form>
-        <ul>
-          {todos.map((todo: TaskType, index) => (
-            <Task key={todo.id} index={index} todo={todo} />
-          ))}
+        <ul className="todo-list">
+          <div className="block-scroll-wrapper">
+            <div className="block-scroll">
+              {todos.map((todo: TaskType, index) => (
+                <Task key={todo.id} index={index} todo={todo} />
+              ))}
+            </div>
+          </div>
         </ul>
       </div>
     </div>

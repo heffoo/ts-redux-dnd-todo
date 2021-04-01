@@ -17,7 +17,7 @@ export default function appReducer(state = InitialState, action: ActionTypes): T
       return state.map((task) => (task.id === action.id ? { ...task, completed: !task.completed } : task));
     }
     case consts.EDIT_TASK: {
-      console.log(action.value);
+      console.log(action.value.length);
       return state.map((task) => (task.id === action.id ? { ...task, title: action.value } : task));
     }
     default:
