@@ -19,4 +19,10 @@ export interface ToggleTask {
   id: string;
 }
 
-export type ActionTypes = AddTask | DelTask | ToggleTask;
+export interface EditTask {
+  type: 'EDIT_TASK';
+  id: string;
+  value: string;
+}
+
+export type ActionTypes = AddTask | DelTask | ToggleTask | EditTask;
