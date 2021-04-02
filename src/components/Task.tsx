@@ -6,14 +6,19 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+import { useAppSelector } from "../store/store";
+
 import "./Task.scss";
 interface Props {
   todo: TaskType;
   index: number;
 }
-
 export const Task: FC<Props> = ({ todo }) => {
+  const todos = useAppSelector((store) => store.app);
   const [isEditMode, setEditMode] = useState<boolean>(false);
+  const [taskList, setTaskList] = useState(todos);
+
+  const [currentTask, setСurrentTask] = useState<TaskType | null>(null);
 
   const dispatch = useDispatch();
 
@@ -33,8 +38,57 @@ export const Task: FC<Props> = ({ todo }) => {
     }
   };
 
+  console.log("currentTask", currentTask);
+
+  const onDragStartHandler = (e: any, todo: any) => {
+    setСurrentTask(todo);
+  };
+  const onDragEndHandler = (e: any) => {
+    e.target.style.background = "white";
+  };
+  const onDragOverHandler = (e: any) => {
+    e.preventDefault();
+    e.target.style.background = "lightgray";
+  };
+  const onDropHandler = (e: any, todo: any) => {
+    e.preventDefault();
+
+    const sortTasks = (a: any, b: any) => {
+      console.log("a,b", a.order, b.order);
+      if (a.order > b.order) {
+        return 1;
+      } else {
+        return -1;
+      }
+    };
+
+    setTaskList(
+      todos.sort(sortTasks).map((c: any) => {
+        if (c.id === todo.id) {
+          console.log(1, currentTask);
+          return { ...c, order: currentTask?.order };
+        }
+        if (c.id === currentTask?.id) {
+          console.log(2, currentTask);
+          return { ...c, order: todo.order };
+        }
+        return c;
+      })
+    );
+    e.target.style.background = "white";
+  };
+  console.log("drop", todo);
+
   return (
-    <li className="one-task">
+    <li
+      className="one-task"
+      draggable={true}
+      onDragStart={(e) => onDragStartHandler(e, todo)}
+      onDragLeave={(e) => onDragEndHandler(e)}
+      onDragEnd={(e) => onDragEndHandler(e)}
+      onDragOver={(e) => onDragOverHandler(e)}
+      onDrop={(e) => onDropHandler(e, todo)}
+    >
       <div className="task-title">
         <Checkbox
           color="primary"
@@ -48,7 +102,7 @@ export const Task: FC<Props> = ({ todo }) => {
           <input
             type="text"
             className="editTaskInput"
-            defaultValue={todo.title}
+            defaultValue={todo.title.trim()}
             onKeyPress={(e) => e.key === "Enter" && editFunc(todo.id)}
           />
         )}

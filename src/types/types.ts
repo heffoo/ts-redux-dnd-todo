@@ -2,6 +2,7 @@ export interface TaskType {
     title: string;
     completed: boolean;
     id: string;
+    order: number,
   }
 
 export interface AddTask {

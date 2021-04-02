@@ -1,12 +1,11 @@
 import appReducer from "../reducers/reducer";
 import { combineReducers } from "redux";
-import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { TypedUseSelectorHook, useSelector} from 'react-redux';
 
 const rootReducer = combineReducers({
     app: appReducer,
     
 });
-
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export type RootState = ReturnType<typeof rootReducer>

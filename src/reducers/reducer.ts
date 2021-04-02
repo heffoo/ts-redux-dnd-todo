@@ -5,10 +5,12 @@ import * as consts from "../consts/consts";
 
 const InitialState: TaskType[] = JSON.parse(localStorage.getItem("data") as string) || [];
 
+let order = 0;
+
 export default function appReducer(state = InitialState, action: ActionTypes): TaskType[] {
   switch (action.type) {
     case consts.ADD_TASK: {
-      return [{ title: action.text, completed: false, id: uuidv4() }, ...state];
+      return [{ title: action.text, completed: false, id: uuidv4(), order: order++ }, ...state];
     }
     case consts.DEL_TASK: {
       return [...state.filter((task) => task.id !== action.id)];

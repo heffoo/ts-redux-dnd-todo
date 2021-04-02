@@ -5,7 +5,7 @@ import { useState } from "react";
 import { TaskType } from "./types/types";
 import TextField from "@material-ui/core/TextField";
 import "./App.scss";
-import { useAppSelector } from "./store/store";
+import { useAppSelector } from './store/store';
 import { Task } from "./components/Task";
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
             id="standard-basic"
             label="Standard"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue(e.target.value.trim())}
           />
         </form>
         <ul className="todo-list">
