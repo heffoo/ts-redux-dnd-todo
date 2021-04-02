@@ -12,6 +12,7 @@ function App() {
   const todos = useAppSelector((store) => store.app);
 
   const [value, setValue] = useState("");
+  const [taskList, setTaskList] = useState(todos);
 
   const dispatch = useDispatch();
 
@@ -19,7 +20,9 @@ function App() {
     localStorage.setItem("data", JSON.stringify(todos));
   }, [todos]);
 
-  console.log("23", todos);
+  const [sortTasksA, setSortTasks] = useState(null)
+
+  console.log("23", sortTasksA);
   return (
     <div className="App">
       <div className="upper-tabs"></div>
@@ -45,7 +48,7 @@ function App() {
           <div className="block-scroll-wrapper">
             <div className="block-scroll">
               {todos.map((todo: TaskType, index) => (
-                <Task key={todo.id} index={index} todo={todo} />
+                <Task key={todo.id}  setSortTasks={setSortTasks} index={index} todo={todo} />
               ))}
             </div>
           </div>

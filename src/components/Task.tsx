@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import { TaskType } from "../types/types";
 import { delTask, toggleTask, editTask } from "../action/actions";
@@ -12,13 +12,16 @@ import "./Task.scss";
 interface Props {
   todo: TaskType;
   index: number;
+  setSortTasks:  Dispatch<SetStateAction<any>>
 }
-export const Task: FC<Props> = ({ todo }) => {
+
+let currentTask : TaskType | null = null;
+
+export const Task: FC<Props> = ({ todo, setSortTasks }) => {
   const todos = useAppSelector((store) => store.app);
   const [isEditMode, setEditMode] = useState<boolean>(false);
-  const [taskList, setTaskList] = useState(todos);
 
-  const [currentTask, setСurrentTask] = useState<TaskType | null>(null);
+  // const [currentTask, setСurrentTask] = useState<TaskType | null>(null);
 
   const dispatch = useDispatch();
 
@@ -41,7 +44,8 @@ export const Task: FC<Props> = ({ todo }) => {
   console.log("currentTask", currentTask);
 
   const onDragStartHandler = (e: any, todo: any) => {
-    setСurrentTask(todo);
+    // setСurrentTask(todo);
+    currentTask = todo;
   };
   const onDragEndHandler = (e: any) => {
     e.target.style.background = "white";
@@ -61,9 +65,9 @@ export const Task: FC<Props> = ({ todo }) => {
         return -1;
       }
     };
-
+    setSortTasks(sortTasks)
     setTaskList(
-      todos.sort(sortTasks).map((c: any) => {
+      todos.map((c: any) => {
         if (c.id === todo.id) {
           console.log(1, currentTask);
           return { ...c, order: currentTask?.order };
