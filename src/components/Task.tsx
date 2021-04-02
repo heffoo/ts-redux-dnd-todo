@@ -20,6 +20,7 @@ let currentTask : TaskType | null = null;
 export const Task: FC<Props> = ({ todo, setSortTasks }) => {
   const todos = useAppSelector((store) => store.app);
   const [isEditMode, setEditMode] = useState<boolean>(false);
+  const [taskList, setTaskList] = useState(todos);
 
   // const [currentTask, setСurrentTask] = useState<TaskType | null>(null);
 

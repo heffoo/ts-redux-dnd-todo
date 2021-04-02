@@ -12,7 +12,6 @@ function App() {
   const todos = useAppSelector((store) => store.app);
 
   const [value, setValue] = useState("");
-  const [taskList, setTaskList] = useState(todos);
 
   const dispatch = useDispatch();
 
