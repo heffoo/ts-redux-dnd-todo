@@ -1,51 +1,67 @@
 import React, { useState, DragEvent } from "react";
-
+import { useTypedDispatch, useTypedSelector } from "./store/store-hooks";
+import { setCardList } from "./store/cards-reducer";
+import { Card, CardList } from "./store/store-types";
 import "./App.scss";
 
-interface Card {
-  id: number;
-  order: number;
-  text: string;
-}
-
-type CardList = Array<Card>;
-
 function App() {
-  const [cardList, setCardList] = useState<CardList>([
-    { id: 1, order: 3, text: "КАРТОЧКА 3" },
-    { id: 2, order: 1, text: "КАРТОЧКА 1" },
-    { id: 3, order: 2, text: "КАРТОЧКА 2" },
-    { id: 4, order: 4, text: "КАРТОЧКА 4" },
-  ]);
+  const cardList = useTypedSelector((state) => state.cards.cardList);
 
-  const [currentCard, setCurrentCard] = useState<Card | null>(null)
+  const dispatch = useTypedDispatch();
 
-  function dragStartHandler(e: DragEvent<HTMLDivElement>, card: Card) {
-    console.log("drag", card);
+  const [currentCard, setCurrentCard] = useState<Card | null>(null);
+
+  function setCards(cardList: CardList) {
+    dispatch(setCardList(cardList));
   }
 
-  function dragEndHandler(e: DragEvent<HTMLDivElement>) {}
+  function dragStartHandler(e: DragEvent<HTMLDivElement>, card: Card) {
+    setCurrentCard(card);
+  }
+
+  function dragEndHandler(e: DragEvent<HTMLDivElement>) {
+    e.currentTarget.style.backgroundColor = "white";
+  }
 
   function dragOverHandler(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
+    e.currentTarget.style.backgroundColor = "lightgray";
   }
 
   function dropHandler(e: DragEvent<HTMLDivElement>, card: Card) {
     e.preventDefault();
-    console.log("drop", card);
+    if (currentCard) {
+      setCards(
+        cardList.map((c: Card) => {
+          if (c.id === card.id) {
+            return { ...c, order: currentCard.order };
+          }
+
+          if (c.id === currentCard.id) {
+            return { ...c, order: card.order };
+          }
+
+          return c;
+        })
+      );
+    }
+  }
+
+  function sortCards(a: Card, b: Card): number {
+    return a.order > b.order ? 1 : -1;
   }
 
   return (
     <div className="app">
-      {cardList.map((card: Card, index: number) => (
+      {cardList.sort(sortCards).map((card: Card) => (
         <div
-          key={index + card.id}
+          key={card.order}
           className="app__card"
           draggable={true}
           onDragStart={(e) => dragStartHandler(e, card)}
-          onDragLeave={(e) => dragEndHandler(e)}
-          onDragEnd={(e) => dragEndHandler(e)}
-          onDragOver={(e) => dragOverHandler(e)}
+          onDragLeave={dragEndHandler}
+          onDragEnd={dragEndHandler}
+          onDragOver={dragOverHandler}
           onDrop={(e) => dropHandler(e, card)}
         >
           {card.text}
