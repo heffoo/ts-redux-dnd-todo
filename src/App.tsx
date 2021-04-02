@@ -1,58 +1,56 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { addTask } from "./action/actions";
-import { useState } from "react";
-import { TaskType } from "./types/types";
-import TextField from "@material-ui/core/TextField";
+import React, { useState, DragEvent } from "react";
+
 import "./App.scss";
-import { useAppSelector } from './store/store';
-import { Task } from "./components/Task";
+
+interface Card {
+  id: number;
+  order: number;
+  text: string;
+}
+
+type CardList = Array<Card>;
 
 function App() {
-  const todos = useAppSelector((store) => store.app);
+  const [cardList, setCardList] = useState<CardList>([
+    { id: 1, order: 3, text: "КАРТОЧКА 3" },
+    { id: 2, order: 1, text: "КАРТОЧКА 1" },
+    { id: 3, order: 2, text: "КАРТОЧКА 2" },
+    { id: 4, order: 4, text: "КАРТОЧКА 4" },
+  ]);
 
-  const [value, setValue] = useState("");
+  const [currentCard, setCurrentCard] = useState<Card | null>(null)
 
-  const dispatch = useDispatch();
+  function dragStartHandler(e: DragEvent<HTMLDivElement>, card: Card) {
+    console.log("drag", card);
+  }
 
-  useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(todos));
-  }, [todos]);
+  function dragEndHandler(e: DragEvent<HTMLDivElement>) {}
 
-  const [sortTasksA, setSortTasks] = useState(null)
+  function dragOverHandler(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+  }
 
-  console.log("23", sortTasksA);
+  function dropHandler(e: DragEvent<HTMLDivElement>, card: Card) {
+    e.preventDefault();
+    console.log("drop", card);
+  }
+
   return (
-    <div className="App">
-      <div className="upper-tabs"></div>
-      <div className="side-pannel"></div>
-      <div className="main-container">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            dispatch(addTask(value));
-            setValue("");
-          }}
+    <div className="app">
+      {cardList.map((card: Card, index: number) => (
+        <div
+          key={index + card.id}
+          className="app__card"
+          draggable={true}
+          onDragStart={(e) => dragStartHandler(e, card)}
+          onDragLeave={(e) => dragEndHandler(e)}
+          onDragEnd={(e) => dragEndHandler(e)}
+          onDragOver={(e) => dragOverHandler(e)}
+          onDrop={(e) => dropHandler(e, card)}
         >
-          <TextField
-            type="text"
-            className="addtask-input"
-            id="standard-basic"
-            label="Standard"
-            value={value}
-            onChange={(e) => setValue(e.target.value.trim())}
-          />
-        </form>
-        <ul className="todo-list">
-          <div className="block-scroll-wrapper">
-            <div className="block-scroll">
-              {todos.map((todo: TaskType, index) => (
-                <Task key={todo.id}  setSortTasks={setSortTasks} index={index} todo={todo} />
-              ))}
-            </div>
-          </div>
-        </ul>
-      </div>
+          {card.text}
+        </div>
+      ))}
     </div>
   );
 }
