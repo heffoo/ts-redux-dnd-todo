@@ -11,7 +11,7 @@ import "./Task.scss";
 interface Props {
   todo: TaskType;
   index: number;
-  todos: Array<TaskType>
+  todos: Array<TaskType>;
 }
 let currentTask: TaskType | null = null;
 
@@ -39,16 +39,19 @@ export const Task: FC<Props> = ({ todo, todos }) => {
   const onDragStartHandler = (e: any, todo: TaskType) => {
     currentTask = todo;
   };
+
   const onDragEndHandler = (e: any) => {
+    e.target.style.transition = "0.3s";
     e.target.style.background = "white";
   };
+
   const onDragOverHandler = (e: any) => {
     e.preventDefault();
     e.target.style.background = "lightgray";
   };
+
   const onDropHandler = (e: any, todo: any) => {
     e.preventDefault();
-
     const todoMapped = todos.map((c: TaskType) => {
       if (c.id === todo.id) {
         return { ...c, order: currentTask?.order };
@@ -57,7 +60,7 @@ export const Task: FC<Props> = ({ todo, todos }) => {
         return { ...c, order: todo.order };
       }
       return c;
-    })
+    });
 
     dispatch(setTasks(todoMapped));
     e.target.style.background = "white";
