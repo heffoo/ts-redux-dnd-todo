@@ -12,15 +12,13 @@ import "./Task.scss";
 interface Props {
   todo: TaskType;
   index: number;
-  setSortTasks:  Dispatch<SetStateAction<any>>
+  setTaskList: Dispatch<SetStateAction<any>>;
 }
+let currentTask: TaskType | null = null;
 
-let currentTask : TaskType | null = null;
-
-export const Task: FC<Props> = ({ todo, setSortTasks }) => {
+export const Task: FC<Props> = ({ todo, setTaskList}) => {
   const todos = useAppSelector((store) => store.app);
   const [isEditMode, setEditMode] = useState<boolean>(false);
-  const [taskList, setTaskList] = useState(todos);
 
   // const [currentTask, setСurrentTask] = useState<TaskType | null>(null);
 
@@ -42,8 +40,6 @@ export const Task: FC<Props> = ({ todo, setSortTasks }) => {
     }
   };
 
-  console.log("currentTask", currentTask);
-
   const onDragStartHandler = (e: any, todo: any) => {
     // setСurrentTask(todo);
     currentTask = todo;
@@ -58,15 +54,17 @@ export const Task: FC<Props> = ({ todo, setSortTasks }) => {
   const onDropHandler = (e: any, todo: any) => {
     e.preventDefault();
 
-    const sortTasks = (a: any, b: any) => {
-      console.log("a,b", a.order, b.order);
-      if (a.order > b.order) {
-        return 1;
-      } else {
-        return -1;
-      }
-    };
-    setSortTasks(sortTasks)
+    // const sortTasks = (a: any, b: any) => {
+    //   console.log("a,b", a.order, b.order);
+    //   if (a.order > b.order) {
+    //     return 1;
+    //   }
+    //   if (a.order < b.order) {
+    //     return -1;
+    //   }
+    //   return 0;
+    // };
+    // setSortTasks(sortTasks)
     setTaskList(
       todos.map((c: any) => {
         if (c.id === todo.id) {
@@ -76,9 +74,10 @@ export const Task: FC<Props> = ({ todo, setSortTasks }) => {
         if (c.id === currentTask?.id) {
           console.log(2, currentTask);
           return { ...c, order: todo.order };
-        }
+        }console.log('c', c)
         return c;
       })
+      
     );
     e.target.style.background = "white";
   };

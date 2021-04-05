@@ -5,7 +5,7 @@ import { useState } from "react";
 import { TaskType } from "./types/types";
 import TextField from "@material-ui/core/TextField";
 import "./App.scss";
-import { useAppSelector } from './store/store';
+import { useAppSelector } from "./store/store";
 import { Task } from "./components/Task";
 
 function App() {
@@ -19,9 +19,18 @@ function App() {
     localStorage.setItem("data", JSON.stringify(todos));
   }, [todos]);
 
-  const [sortTasksA, setSortTasks] = useState(null)
+  const [taskList, setTaskList] = useState(todos);
+  console.log("taskList", taskList);
 
-  console.log("23", sortTasksA);
+  const sortTasks = (a: any, b: any) => {
+    console.log("a,b", a.order, b.order);
+    if (a.order > b.order) {
+      return 1;
+    } else {
+      return -1;
+    }
+  };
+
   return (
     <div className="App">
       <div className="upper-tabs"></div>
@@ -46,8 +55,8 @@ function App() {
         <ul className="todo-list">
           <div className="block-scroll-wrapper">
             <div className="block-scroll">
-              {todos.map((todo: TaskType, index) => (
-                <Task key={todo.id}  setSortTasks={setSortTasks} index={index} todo={todo} />
+              {todos.sort(sortTasks).map((todo: TaskType, index) => (
+                <Task key={todo.id} setTaskList={setTaskList} index={index} todo={todo} />
               ))}
             </div>
           </div>
