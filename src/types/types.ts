@@ -8,22 +8,22 @@ export interface TaskType {
   }
 
 export interface AddTask {
-    type: 'ADD_TASK';
+    type: typeof consts.ADD_TASK;
     text: string;
 }
 
 export interface DelTask {
-  type: 'DEL_TASK';
+  type: typeof consts.DEL_TASK;
   id: string;
 }
 
 export interface ToggleTask {
-  type: 'TOGGLE_TASK';
+  type: typeof consts.TOGGLE_TASK;
   id: string;
 }
 
 export interface EditTask {
-  type: 'EDIT_TASK';
+  type: typeof consts.EDIT_TASK;
   id: string;
   value: string;
 }

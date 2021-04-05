@@ -21,7 +21,7 @@ export default function appReducer(state = InitialState, action: ActionTypes): T
       return state.map((task) => (task.id === action.id ? { ...task, title: action.value } : task));
     }
     case consts.SET_TASKS: {
-      return action.tasks
+      return action.tasks;
     }
     default:
       return state;
