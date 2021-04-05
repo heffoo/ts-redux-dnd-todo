@@ -20,7 +20,7 @@ function App() {
   }, [todos]);
 
   const sortTasks = (a: TaskType, b: TaskType) => {
-    if (a.order > b.order) {
+    if (a.order <  b.order) {
       return 1;
     } else {
       return -1;
@@ -43,7 +43,7 @@ function App() {
             type="text"
             className="addtask-input"
             id="standard-basic"
-            label="Standard"
+            label="Введите задачу"
             value={value}
             onChange={(e) => setValue(e.target.value.trim())}
           />
