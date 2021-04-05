@@ -1,26 +1,22 @@
-import React, { FC, useState, Dispatch, SetStateAction } from "react";
+import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { TaskType } from "../types/types";
-import { delTask, toggleTask, editTask } from "../action/actions";
+import { delTask, toggleTask, editTask, setTasks } from "../action/actions";
 import Checkbox from "@material-ui/core/Checkbox";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
-import { useAppSelector } from "../store/store";
-
 import "./Task.scss";
+
 interface Props {
   todo: TaskType;
   index: number;
-  setTaskList: Dispatch<SetStateAction<any>>;
+  todos: Array<TaskType>
 }
 let currentTask: TaskType | null = null;
 
-export const Task: FC<Props> = ({ todo, setTaskList}) => {
-  const todos = useAppSelector((store) => store.app);
+export const Task: FC<Props> = ({ todo, todos }) => {
   const [isEditMode, setEditMode] = useState<boolean>(false);
-
-  // const [currentTask, setСurrentTask] = useState<TaskType | null>(null);
 
   const dispatch = useDispatch();
 
@@ -40,8 +36,7 @@ export const Task: FC<Props> = ({ todo, setTaskList}) => {
     }
   };
 
-  const onDragStartHandler = (e: any, todo: any) => {
-    // setСurrentTask(todo);
+  const onDragStartHandler = (e: any, todo: TaskType) => {
     currentTask = todo;
   };
   const onDragEndHandler = (e: any) => {
@@ -54,34 +49,19 @@ export const Task: FC<Props> = ({ todo, setTaskList}) => {
   const onDropHandler = (e: any, todo: any) => {
     e.preventDefault();
 
-    // const sortTasks = (a: any, b: any) => {
-    //   console.log("a,b", a.order, b.order);
-    //   if (a.order > b.order) {
-    //     return 1;
-    //   }
-    //   if (a.order < b.order) {
-    //     return -1;
-    //   }
-    //   return 0;
-    // };
-    // setSortTasks(sortTasks)
-    setTaskList(
-      todos.map((c: any) => {
-        if (c.id === todo.id) {
-          console.log(1, currentTask);
-          return { ...c, order: currentTask?.order };
-        }
-        if (c.id === currentTask?.id) {
-          console.log(2, currentTask);
-          return { ...c, order: todo.order };
-        }console.log('c', c)
-        return c;
-      })
-      
-    );
+    const todoMapped = todos.map((c: TaskType) => {
+      if (c.id === todo.id) {
+        return { ...c, order: currentTask?.order };
+      }
+      if (c.id === currentTask?.id) {
+        return { ...c, order: todo.order };
+      }
+      return c;
+    })
+
+    dispatch(setTasks(todoMapped));
     e.target.style.background = "white";
   };
-  console.log("drop", todo);
 
   return (
     <li

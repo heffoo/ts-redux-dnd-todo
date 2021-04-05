@@ -1,3 +1,5 @@
+import * as consts from "../consts/consts";
+
 export interface TaskType {
     title: string;
     completed: boolean;
@@ -26,4 +28,9 @@ export interface EditTask {
   value: string;
 }
 
-export type ActionTypes = AddTask | DelTask | ToggleTask | EditTask;
+export interface SetTasks {
+  type: typeof consts.SET_TASKS
+  tasks: Array<TaskType>
+}
+
+export type ActionTypes = AddTask | DelTask | ToggleTask | EditTask | SetTasks;

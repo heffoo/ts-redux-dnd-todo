@@ -19,11 +19,7 @@ function App() {
     localStorage.setItem("data", JSON.stringify(todos));
   }, [todos]);
 
-  const [taskList, setTaskList] = useState(todos);
-  console.log("taskList", taskList);
-
-  const sortTasks = (a: any, b: any) => {
-    console.log("a,b", a.order, b.order);
+  const sortTasks = (a: TaskType, b: TaskType) => {
     if (a.order > b.order) {
       return 1;
     } else {
@@ -55,8 +51,8 @@ function App() {
         <ul className="todo-list">
           <div className="block-scroll-wrapper">
             <div className="block-scroll">
-              {todos.sort(sortTasks).map((todo: TaskType, index) => (
-                <Task key={todo.id} setTaskList={setTaskList} index={index} todo={todo} />
+              {todos.sort(sortTasks).map((todo: TaskType, index, todos: Array<TaskType>) => (
+                <Task key={todo.id} index={index} todo={todo} todos={todos}/>
               ))}
             </div>
           </div>
