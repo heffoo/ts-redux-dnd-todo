@@ -19,7 +19,14 @@ function App() {
     localStorage.setItem("data", JSON.stringify(todos));
   }, [todos]);
 
-  console.log("23", todos);
+  const sortTasks = (a: TaskType, b: TaskType) => {
+    if (a.order > b.order) {
+      return 1;
+    } else {
+      return -1;
+    }
+  };
+
   return (
     <div className="App">
       <div className="upper-tabs"></div>
@@ -38,14 +45,14 @@ function App() {
             id="standard-basic"
             label="Standard"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue(e.target.value.trim())}
           />
         </form>
         <ul className="todo-list">
           <div className="block-scroll-wrapper">
             <div className="block-scroll">
-              {todos.map((todo: TaskType, index) => (
-                <Task key={todo.id} index={index} todo={todo} />
+              {todos.sort(sortTasks).map((todo: TaskType, index, todos: Array<TaskType>) => (
+                <Task key={todo.id} index={index} todo={todo} todos={todos}/>
               ))}
             </div>
           </div>

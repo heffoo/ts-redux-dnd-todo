@@ -1,4 +1,4 @@
-import { AddTask, DelTask, ToggleTask, EditTask } from "../types/types";
+import {AddTask, DelTask, ToggleTask, EditTask, TaskType} from "../types/types";
 import * as consts from "../consts/consts";
 
 export const addTask = (text: string): AddTask => {
@@ -27,3 +27,8 @@ export const editTask = (id: string, value: string): EditTask => {
     value: value,
   };
 };
+
+export const setTasks = (tasks: Array<TaskType>) => ({
+  type: consts.SET_TASKS,
+  tasks
+})
