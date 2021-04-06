@@ -32,12 +32,15 @@ function App() {
 
   const notCheckedTasks = todos.filter((task) => !task.completed);
   const CheckedTasks = todos.filter((task) => task.completed);
+  const FavoriteTasks = todos.filter((task) => task.isFavorite);
 
   let currentArray: any =
     taskState === "allTasks"
       ? todos
       : taskState === "notCompleted"
       ? notCheckedTasks
+      : taskState === "Favorite"
+      ? FavoriteTasks
       : taskState === "Completed" && CheckedTasks;
 
   return (

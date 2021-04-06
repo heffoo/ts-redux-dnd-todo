@@ -28,6 +28,9 @@ export const UpperTabs: FC<Props> = ({ setTaskState, setFiltered }) => {
         <button className="upper-button" onClick={() => showAll("Completed")}>
           Завершенные
         </button>
+        <button className="upper-button" onClick={() => showAll("Favorite")}>
+          Важное
+        </button>
       </div>
     </div>
   );
