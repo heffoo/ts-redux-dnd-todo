@@ -8,7 +8,7 @@ const InitialState: TaskType[] = JSON.parse(localStorage.getItem("data") as stri
 export default function appReducer(state = InitialState, action: ActionTypes): TaskType[] {
   switch (action.type) {
     case consts.ADD_TASK: {
-      return [{ title: action.text, completed: false, id: uuidv4(), order: state.length + 1 }, ...state];
+      return [{ title: action.text, completed: false, id: uuidv4(), order: state.length + 1, isFavorite: false }, ...state];
     }
     case consts.DEL_TASK: {
       return [...state.filter((task) => task.id !== action.id)];
@@ -23,6 +23,10 @@ export default function appReducer(state = InitialState, action: ActionTypes): T
     case consts.SET_TASKS: {
       return action.tasks;
     }
+    case consts.SET_FAVORITE: {
+      return state.map((task) => (task.id === action.id ? {...task, isFavorite: !task.isFavorite} : task))
+    }
+
     default:
       return state;
   }

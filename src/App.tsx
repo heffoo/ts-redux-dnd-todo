@@ -8,13 +8,14 @@ import "./App.scss";
 import { useAppSelector } from "./store/store";
 import { Task } from "./components/Task";
 import { UpperTabs } from "./components/upper-tabs/upperTabs";
+import { SidePanel } from "./components/side-panel/sidePanel";
 
 function App() {
   const todos = useAppSelector((store) => store.app);
 
   const [value, setValue] = useState("");
   const [taskState, setTaskState] = useState<string>("allTasks");
-  const [isFiltered, setFiltered] = useState<boolean>(false)
+  const [isFiltered, setFiltered] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +30,6 @@ function App() {
     }
   };
 
-  const showNotChecked = () => {};
   const notCheckedTasks = todos.filter((task) => !task.completed);
   const CheckedTasks = todos.filter((task) => task.completed);
 
@@ -42,8 +42,8 @@ function App() {
 
   return (
     <div className="App">
-      <UpperTabs todos={todos} setFiltered={setFiltered} showNotChecked={showNotChecked} setTaskState={setTaskState} />
-      <div className="side-pannel"></div>
+      <UpperTabs todos={todos} setFiltered={setFiltered} setTaskState={setTaskState} />
+      <SidePanel />
       <div className="main-container">
         <form
           onSubmit={(e) => {

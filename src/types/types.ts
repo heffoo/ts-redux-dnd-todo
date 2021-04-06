@@ -5,6 +5,7 @@ export interface TaskType {
     completed: boolean;
     id: string;
     order: number,
+    isFavorite: boolean,
   }
 
 export interface AddTask {
@@ -33,4 +34,9 @@ export interface SetTasks {
   tasks: Array<TaskType>
 }
 
-export type ActionTypes = AddTask | DelTask | ToggleTask | EditTask | SetTasks;
+export interface SetFavorite {
+  type: typeof consts.SET_FAVORITE
+  id: string;
+}
+
+export type ActionTypes = AddTask | DelTask | ToggleTask | EditTask | SetTasks | SetFavorite;

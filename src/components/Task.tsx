@@ -1,11 +1,15 @@
 import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { TaskType } from "../types/types";
-import { delTask, toggleTask, editTask, setTasks } from "../action/actions";
+import { delTask, toggleTask, editTask, setTasks, setFavorite } from "../action/actions";
 import Checkbox from "@material-ui/core/Checkbox";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+
+import star from "../images/star.png";
+import starLiked from "../images/starliked.png";
+
 import "./Task.scss";
 
 interface Props {
@@ -28,6 +32,10 @@ export const Task: FC<Props> = ({ todo, todos, isFiltered }) => {
   const toggTask = (id: string) => {
     dispatch(toggleTask(id));
   };
+
+    const setLike = (id: string) => {
+      dispatch(setFavorite(id))
+    }
 
   const editFunc = (id: string) => {
     const value = (document.getElementsByClassName("editTaskInput")[0] as HTMLInputElement).value;
@@ -78,6 +86,9 @@ export const Task: FC<Props> = ({ todo, todos, isFiltered }) => {
       onDrop={(e) => onDropHandler(e, todo)}
     >
       <div className="task-title">
+        <button className="like-button" >
+          <img className="button-star" src={todo.isFavorite ? starLiked : star} onClick={() => setLike(todo.id)}></img>
+        </button>
         <Checkbox
           color="primary"
           inputProps={{ "aria-label": "secondary checkbox" }}

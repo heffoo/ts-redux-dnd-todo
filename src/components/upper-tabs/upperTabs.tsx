@@ -5,11 +5,10 @@ import "./upperTabs.scss";
 
 interface Props {
   todos: Array<TaskType>;
-  showNotChecked: any;
   setTaskState: any;
   setFiltered: any;
 }
-export const UpperTabs: FC<Props> = ({ todos, showNotChecked, setTaskState, setFiltered }) => {
+export const UpperTabs: FC<Props> = ({ setTaskState, setFiltered }) => {
   const showAll = (value: string) => {
     setTaskState(value);
     if (value === "allTasks") {
@@ -21,15 +20,14 @@ export const UpperTabs: FC<Props> = ({ todos, showNotChecked, setTaskState, setF
     <div className="upper-tabs-container">
       <div className="upper-buttons">
         <button className="upper-button" onClick={() => showAll("allTasks")}>
-          вкладка
+          Все задачи
         </button>
         <button className="upper-button" onClick={() => showAll("notCompleted")}>
-          notCompl
+          Незавершенные
         </button>
         <button className="upper-button" onClick={() => showAll("Completed")}>
-          compl
+          Завершенные
         </button>
-        <button className="upper-button">вкладка</button>
       </div>
     </div>
   );

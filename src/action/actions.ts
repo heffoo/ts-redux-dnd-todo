@@ -32,3 +32,8 @@ export const setTasks = (tasks: Array<TaskType>) => ({
   type: consts.SET_TASKS,
   tasks
 })
+
+export const setFavorite = (id: string) => ({
+  type: consts.SET_FAVORITE,
+  id: id,
+})
