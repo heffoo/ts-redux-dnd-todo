@@ -56,9 +56,9 @@ function App() {
             type="text"
             className="addtask-input"
             id="standard-basic"
-            label="Standard"
+            label="Введите задачу"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue(e.target.value.trim())}
           />
         </form>
         <ul className="todo-list">
