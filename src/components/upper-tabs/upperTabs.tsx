@@ -17,21 +17,19 @@ export const UpperTabs: FC<Props> = ({ setTaskState, setFiltered }) => {
   };
 
   return (
-    <div className="upper-tabs-container">
-      <div className="upper-buttons">
-        <button className="upper-button" onClick={() => showAll("allTasks")}>
-          Все задачи
-        </button>
-        <button className="upper-button" onClick={() => showAll("notCompleted")}>
-          Незавершенные
-        </button>
-        <button className="upper-button" onClick={() => showAll("Completed")}>
-          Завершенные
-        </button>
-        <button className="upper-button" onClick={() => showAll("Favorite")}>
-          Важное
-        </button>
-      </div>
+    <div className="upper-buttons">
+      <button className="upper-button" onClick={() => showAll("allTasks")}>
+        Все задачи
+      </button>
+      <button className="upper-button" onClick={() => showAll("notCompleted")}>
+        Незавершенные
+      </button>
+      <button className="upper-button" onClick={() => showAll("Completed")}>
+        Завершенные
+      </button>
+      <button className="upper-button" onClick={() => showAll("Favorite")}>
+        Важное
+      </button>
     </div>
   );
 };
