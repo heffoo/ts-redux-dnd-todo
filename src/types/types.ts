@@ -1,16 +1,24 @@
 import * as consts from "../consts/consts";
 
+
+
 export interface TaskType {
-    title: string;
-    completed: boolean;
-    id: string;
-    order: number,
-    isFavorite: boolean,
-  }
+  title: string;
+  completed: boolean;
+  id: string;
+  order: number;
+  isFavorite: boolean;
+}
+
+// export interface ListType {
+//   title: string;
+//   id: string;
+//   tasks?: Array<TaskType>;
+// }
 
 export interface AddTask {
-    type: typeof consts.ADD_TASK;
-    text: string;
+  type: typeof consts.ADD_TASK;
+  text: string;
 }
 
 export interface DelTask {
@@ -30,13 +38,20 @@ export interface EditTask {
 }
 
 export interface SetTasks {
-  type: typeof consts.SET_TASKS
-  tasks: Array<TaskType>
+  type: typeof consts.SET_TASKS;
+  tasks: Array<TaskType>;
 }
 
 export interface SetFavorite {
-  type: typeof consts.SET_FAVORITE
+  type: typeof consts.SET_FAVORITE;
   id: string;
 }
+
+// export interface AddNewList {
+//   type: typeof consts.ADD_NEW_LIST;
+//   text: string;
+//   id: string;
+//   tasks?: Array<TaskType>;
+// }
 
 export type ActionTypes = AddTask | DelTask | ToggleTask | EditTask | SetTasks | SetFavorite;

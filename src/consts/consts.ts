@@ -11,3 +11,5 @@ export const SET_TASKS = "SET_TASKS";
 export const SORT_BY_CHECKED = "SORT_BY_CHECKED";
 
 export const SET_FAVORITE = "SET_FAVORITE";
+
+// export const ADD_NEW_LIST = "ADD_NEW_LIST";

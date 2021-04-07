@@ -9,13 +9,16 @@ import { useAppSelector } from "./store/store";
 import { Task } from "./components/Task";
 import { UpperTabs } from "./components/upper-tabs/upperTabs";
 import { SidePanel } from "./components/side-panel/sidePanel";
-
+import { Modal } from "./components/modal/modal";
+import ModalPortal from "./components/modal/portal";
 function App() {
   const todos = useAppSelector((store) => store.app);
 
   const [value, setValue] = useState("");
   const [taskState, setTaskState] = useState<string>("allTasks");
   const [isFiltered, setFiltered] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,9 +47,15 @@ function App() {
       : taskState === "Completed" && CheckedTasks;
 
   return (
-    <div className="App">
+    <div className="App">   {modal ? (
+          <ModalPortal>
+            <Modal setModal={setModal}/>
+          </ModalPortal>
+        ) : (
+          ""
+        )}
       <UpperTabs todos={todos} setFiltered={setFiltered} setTaskState={setTaskState} />
-      <SidePanel />
+      <SidePanel modal={modal} setModal={setModal} />
       <div className="main-container">
         <form
           onSubmit={(e) => {
@@ -64,6 +73,8 @@ function App() {
             onChange={(e) => setValue(e.target.value.trim())}
           />
         </form>
+     
+        <div className="modals" id="modals"></div>
         <ul className="todo-list">
           <div className="block-scroll-wrapper">
             <div className="block-scroll">

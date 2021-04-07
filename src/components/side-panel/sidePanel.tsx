@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState, FC } from "react";
 
-import './sidePanel.scss'
+import "./sidePanel.scss";
 
-export const SidePanel = () => {
-    return (
-        <div className="side-panel">123</div>
-    )
+interface Props {
+  modal: boolean;
+  setModal: any;
 }
+export const SidePanel: FC<Props> = ({ modal, setModal }) => {
+  return (
+    <div className="side-panel">
+      123<button onClick={() => setModal(!modal)}>button</button>
+    </div>
+  );
+};

@@ -1,0 +1,30 @@
+.modal {
+  position: absolute;
+  width: 200px;
+  height: 180px;
+  background-color: wheat;
+  z-index: 5;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  bottom: 46%;
+  left: 46%;
+
+  & button {
+    position: absolute;
+    cursor: pointer;
+
+    right: 10px;
+    top: 10px;
+    background-color: transparent;
+    font-size: 16px;
+    border: 0;
+    outline: 0;
+    &:hover {
+      transform: scale(1.3);
+    }
+  }
+}

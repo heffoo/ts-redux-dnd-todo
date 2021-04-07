@@ -87,7 +87,7 @@ export const Task: FC<Props> = ({ todo, todos, isFiltered }) => {
     >
       <div className="task-title">
         <button className="like-button" >
-          <img className="button-star" src={todo.isFavorite ? starLiked : star} onClick={() => setLike(todo.id)}></img>
+          <img className="button-star" alt='img' src={todo.isFavorite ? starLiked : star} onClick={() => setLike(todo.id)}></img>
         </button>
         <Checkbox
           color="primary"
