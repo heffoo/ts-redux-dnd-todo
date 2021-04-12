@@ -1,8 +1,10 @@
-import appReducer from "../reducers/reducer";
+import listReducer from "../reducers/listReducer";
 import { combineReducers } from "redux";
 import { TypedUseSelectorHook, useSelector} from 'react-redux';
+import appReducer from "../reducers/appReducer";
 
 const rootReducer = combineReducers({
+    list: listReducer,
     app: appReducer,
     
 });

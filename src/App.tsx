@@ -9,21 +9,25 @@ import { useAppSelector } from "./store/store";
 import { Task } from "./components/Task";
 import { UpperTabs } from "./components/upper-tabs/upperTabs";
 import { SidePanel } from "./components/side-panel/sidePanel";
-import { Modal } from "./components/modal/modal";
-import ModalPortal from "./components/modal/portal";
+
 function App() {
-  const todos = useAppSelector((store) => store.app);
+  const list = useAppSelector((store) => store.list);
+  let activeList = useAppSelector((store) => store.app.activeList);
+  if (activeList === null) {
+    activeList = list[0].id;
+  }
+  const todos = list.find((item) => activeList === item.id)?.tasks || [];
 
   const [value, setValue] = useState("");
   const [taskState, setTaskState] = useState<string>("allTasks");
   const [isFiltered, setFiltered] = useState<boolean>(false);
-  const [modal, setModal] = useState<boolean>(false);
+  // const [modal, setModal] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem("data", JSON.stringify(list));
+  }, [list]);
 
   const sortTasks = (a: TaskType, b: TaskType) => {
     if (a.order < b.order) {
@@ -47,20 +51,21 @@ function App() {
       : taskState === "Completed" && CheckedTasks;
 
   return (
-    <div className="App">   {modal ? (
-          <ModalPortal>
-            <Modal setModal={setModal}/>
-          </ModalPortal>
-        ) : (
-          ""
-        )}
-      <UpperTabs todos={todos} setFiltered={setFiltered} setTaskState={setTaskState} />
-      <SidePanel modal={modal} setModal={setModal} />
+    <div className="App">
+      {/* {modal ? ( */}
+      {/* //   <ModalPortal>
+        //     <Modal setModal={setModal}/>
+        //   </ModalPortal>
+        // ) : (
+        //   ""
+        // )} */}
+      {/* <UpperTabs todos={todos} setFiltered={setFiltered} setTaskState={setTaskState} /> */}
+      <SidePanel key={activeList} />
       <div className="main-container">
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            dispatch(addTask(value));
+            dispatch(addTask(value, activeList));
             setValue("");
           }}
         >
@@ -73,7 +78,7 @@ function App() {
             onChange={(e) => setValue(e.target.value.trim())}
           />
         </form>
-     
+
         <div className="modals" id="modals"></div>
         <ul className="todo-list">
           <div className="block-scroll-wrapper">

@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { TaskType } from "../types/types";
+import { TaskType, AppState } from "../types/types";
 import { delTask, toggleTask, editTask, setTasks, setFavorite } from "../action/actions";
 import Checkbox from "@material-ui/core/Checkbox";
 import CloseIcon from "@material-ui/icons/Close";
@@ -11,6 +11,7 @@ import star from "../images/star.png";
 import starLiked from "../images/starliked.png";
 
 import "./Task.scss";
+import { useAppSelector } from "../store/store";
 
 interface Props {
   todo: TaskType;
@@ -25,12 +26,15 @@ export const Task: FC<Props> = ({ todo, todos, isFiltered }) => {
 
   const dispatch = useDispatch();
 
+  const list = useAppSelector((store) => store.list);
+  const activeList = useAppSelector((store) => store.app.activeList);
+
   const deleteTask = (id: string) => {
-    dispatch(delTask(id));
+    dispatch(delTask(id, activeList));
   };
 
   const toggTask = (id: string) => {
-    dispatch(toggleTask(id));
+    dispatch(toggleTask(id,activeList));
   };
 
     const setLike = (id: string) => {
@@ -39,8 +43,9 @@ export const Task: FC<Props> = ({ todo, todos, isFiltered }) => {
 
   const editFunc = (id: string) => {
     const value = (document.getElementsByClassName("editTaskInput")[0] as HTMLInputElement).value;
+    console.log('todo', id)
     if (value.length) {
-      dispatch(editTask(id, value));
+      dispatch(editTask(id, value, activeList));
       setEditMode(!isEditMode);
     }
   };
@@ -71,7 +76,7 @@ export const Task: FC<Props> = ({ todo, todos, isFiltered }) => {
       return c;
     });
 
-    dispatch(setTasks(todoMapped));
+    dispatch(setTasks(todoMapped, activeList));
     e.target.style.background = "white";
   };
 
